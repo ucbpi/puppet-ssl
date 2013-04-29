@@ -10,6 +10,18 @@ are encouraged, especially for Debian support.
 
 * puppetlabs-stdlib >= 2.6.0 (may work with earlier versions)
 
+# Usage #
+
+As it stands, the intention is for the ssl::cert defined type to be used to
+build a self-signed cert.  This process also generates a CSR for us.  This is
+what needs to be submitted to the signing authority.
+
+Once the signing authority signs your cert request, you can plug in the relevant
+certificate id into the appropriate ssl defined type, and it will automatically
+download and install the cert for you.
+
+Currently, the only supported signing authority is InCommon (ssl::incommon), but
+this can easily be expanded to others.
 
 ## Example ##
 
@@ -33,6 +45,12 @@ License
 -------
 
 None
+
+Change Log
+----------
+
+* 0.0.2 : Added a README
+* 0.0.1 : Initial Release
 
 Contact
 -------
