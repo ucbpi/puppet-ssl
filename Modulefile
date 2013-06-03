@@ -1,5 +1,5 @@
 name 'arusso-ssl'
-version '0.0.2'
+version '0.0.3'
 summary 'SSL certificate management module'
 description "This module manages SSL certificates, with baked in support for
   downloading certs from InCommon."
