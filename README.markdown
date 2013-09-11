@@ -3,8 +3,8 @@
 This module provides a standard way to manage your SSL certificates, and
 currently includes support for auto-downloading your signed certs from InCommon.
 
-Support for this module is currently limited to Red Hat, though contributions
-are encouraged, especially for Debian support.
+Supported platforms are RedHat and Debiana (based on $::osfamily fact).  Pull
+requests for other platforms are welcomed.
 
 ## Dependencies ##
 
@@ -44,7 +44,12 @@ this can easily be expanded to others.
 License
 -------
 
-None
+See LICENSE file
+
+Copyright
+---------
+
+Copyright &copy; 2013 The Regents of the University of California
 
 Contact
 -------
