@@ -13,6 +13,11 @@ class ssl::params {
       $crt_dir = '/etc/ssl/certs'
       $key_dir = '/etc/ssl/private'
     }
+    'Archlinux': {
+      $package = 'openssl'
+      $crt_dir = '/etc/ssl/certs'
+      $key_dir = '/etc/ssl/private'
+    }
     default: {
       fail("\$::osfamily = '${::osfamily}' not supported!")
     }
