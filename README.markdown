@@ -1,10 +1,11 @@
 # SSL Management Module #
 
 This module provides a standard way to manage your SSL certificates, and
-currently includes support for auto-downloading your signed certs from InCommon.
+currently includes support for auto-downloading your signed certs from
+InCommon.
 
-Supported platforms are RedHat and Debian (based on $::osfamily fact).  Pull
-requests for other platforms are welcomed.
+Supported platforms are RedHat, Debian and Archlinux (based on $::osfamily
+fact).  Pull requests for other platforms are welcomed.
 
 ## Dependencies ##
 
@@ -16,12 +17,13 @@ As it stands, the intention is for the ssl::cert defined type to be used to
 build a self-signed cert.  This process also generates a CSR for us.  This is
 what needs to be submitted to the signing authority.
 
-Once the signing authority signs your cert request, you can plug in the relevant
+Once the signing authority signs your cert request, you can plug in the
+relevant
 certificate id into the appropriate ssl defined type, and it will automatically
 download and install the cert for you.
 
-Currently, the only supported signing authority is InCommon (ssl::incommon), but
-this can easily be expanded to others.
+Currently, the only supported signing authority is InCommon (ssl::incommon),
+but this can easily be expanded to others.
 
 ## Example ##
 
@@ -58,6 +60,10 @@ Contributors:
 
   * Debian/Ubuntu Support
 
+**Niels Abspoel**
+
+  * Archlinux Support
+
 Contact
 -------
 
@@ -67,4 +73,4 @@ Support
 -------
 
 Please log tickets and issues at the
-[Projects site](https://github.com/arusso23/puppet-ssl/issues/)
+[Projects site](https://github.com/arusso/puppet-ssl/issues/)
