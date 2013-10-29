@@ -28,7 +28,7 @@ define ssl::incommon (
   if $id != "" {
     $url = "https://cert-manager.com/customer/InCommon/ssl?action=download&sslId=${id}"
     $format_x509 = "&format=x509CO"
-    $format_int = "&formt=x509IO"
+    $format_int = "&format=x509IO"
     $url_x509 = shellquote( "${url}${format_x509}" )
     $url_int = shellquote( "${url}${format_int}" )
     $grab_int = "curl -q --silent ${url_int} -o ${ssl::params::crt_dir}/intermediate.crt"
