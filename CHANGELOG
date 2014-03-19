@@ -1,3 +1,6 @@
+2014-03-19 Aaron Russo <arusso@berkeley.edu> - 1.0.3
+* issue #5 - fixed unneccessary polling of incommon in ssl::incommon
+
 2013-10-28 Aaron Russo <arusso@berkeley.edu> - 1.0.2
 * issue #4 - typo in url for incommon intermediate cert
 
