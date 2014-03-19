@@ -24,6 +24,14 @@ define ssl::incommon (
   validate_re( $id, '^([0-9]+|)$' )
   include ssl::params
 
+  file { '/usr/local/sbin/check-incommon-cert':
+    ensure => present,
+    owner  => root,
+    group  => root,
+    mode   => '0550',
+    source => 'puppet:///ssl/check-incommon-cert.sh',
+  }
+
   # Only try to obtain the cert if we have an id
   if $id != "" {
     $url = "https://cert-manager.com/customer/InCommon/ssl?action=download&sslId=${id}"
@@ -34,18 +42,13 @@ define ssl::incommon (
     $grab_int = "curl -q --silent ${url_int} -o ${ssl::params::crt_dir}/intermediate.crt"
     $grab_x509 =  "mv -f ${ssl::params::crt_dir}/meta/${cn}.crt.tmp ${ssl::params::crt_dir}/${cn}.crt; 
                    touch ${ssl::params::crt_dir}/meta/${cn}.lock" 
-    $check_x509 = 
-      [ 
-        "curl -q --silent ${url_x509} -o ${ssl::params::crt_dir}/meta/${cn}.crt.tmp",
-        "cat ${ssl::params::crt_dir}/meta/${cn}.crt.tmp|head -n1|grep 'BEGIN CERTIFICATE'" 
-      ]
 
     # check if the cert is ready
     exec { "get-cert-${cn}":
-      creates => "${ssl::params::crt_dir}/meta/${cn}.lock",
       command => $grab_x509,
-      onlyif  => $check_x509,
+      onlyif  => "/usr/local/sbin/check-incommon-cert ${id} ${ssl::params::crt_dir} ${cn}",
       path    => [ '/bin', '/usr/bin' ],
+      require => File['/usr/local/sbin/check-incommon-cert'],
     }
 
     # grab our intermediate cert
