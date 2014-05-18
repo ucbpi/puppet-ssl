@@ -75,7 +75,7 @@ define ssl::cert(
   # but root
   file { $key_file:
     ensure  => present,
-    mode    => '0600',
+    mode    => '0400',
     owner   => 'root',
     group   => 'root',
     require => Exec["generate-key-${cn}"],
