@@ -2,3 +2,8 @@ pkg/*
 .DS_Store
 /.project
 /metadata.json
+.ruby-version
+Gemfile.lock
+!spec/fixtures
+spec/fixtures/*
+!spec/fixtures/hiera/
