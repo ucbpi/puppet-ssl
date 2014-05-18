@@ -45,7 +45,7 @@ define ssl::cert(
   $hostname_regex = '^(?i:)(((([a-z0-9][-a-z0-9]{0,61})?[a-z0-9])[.])*([a-z][-a-z0-9]{0,61}[a-z0-9]|[a-z])[.]?)$'
 
   validate_re( $country, '^[A-Z]{2}$' )
-  validate_re( $state, '^(?i)[A-Z]+$' )
+  validate_re( $state, '^(?i)[A-Z ]+$' )
   validate_re( $city, '^(?i)[A-Z ]+$' )
   validate_string( $org )
   validate_string( $org_unit )
