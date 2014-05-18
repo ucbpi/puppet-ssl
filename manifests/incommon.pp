@@ -29,7 +29,7 @@ define ssl::incommon (
     owner  => root,
     group  => root,
     mode   => '0550',
-    source => 'puppet:///ssl/check-incommon-cert.sh',
+    source => 'puppet:///modules/ssl/check-incommon-cert.sh',
   }
 
   # Only try to obtain the cert if we have an id
