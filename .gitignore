@@ -1,10 +1,18 @@
-pkg/*
+*~
+*.swp
 .DS_Store
 /.project
 /metadata.json
 .ruby-version
 Gemfile.lock
+
+# rake build (puppet module build) produces this folder
+pkg/*
+
+# rake coverage produces this folder
+coverage/
+
+# dont keep track of the fixtures we pull down each spec run
 !spec/fixtures
 spec/fixtures/*
 !spec/fixtures/hiera/
-coverage/
