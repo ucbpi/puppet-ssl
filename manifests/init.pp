@@ -14,4 +14,9 @@ class ssl(
     group  => 'root',
     mode   => '0444',
   }
+
+  # make sure our package is installed and that our metadata directory
+  # exists
+  Class[ssl::package] -> Ssl::Cert<| |>
+  File["${::ssl::params::crt_dir}/meta"] -> Ssl::Cert<| |>
 }
