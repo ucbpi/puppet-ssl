@@ -31,12 +31,12 @@
 #   Aaron Russo <arusso@berkeley.edu>
 define ssl::cert(
   $cn = $name,
-  $country = params_lookup( 'country', false ),
-  $state = params_lookup( 'state', false ),
-  $city = params_lookup( 'city', false ),
-  $org = params_lookup( 'org', false),
-  $org_unit = params_lookup( 'org_unit', false),
-  $alt_names = params_lookup( 'alt_names', false)
+  $country = 'US',
+  $state =  'Some-State',
+  $city = 'Some-City',
+  $org = 'Acme Ltd',
+  $org_unit = 'Marketing',
+  $alt_names = [ ],
 ) {
   include ssl
   include ssl::params
@@ -45,13 +45,13 @@ define ssl::cert(
   $hostname_regex = '^(?i:)(((([a-z0-9][-a-z0-9]{0,61})?[a-z0-9])[.])*([a-z][-a-z0-9]{0,61}[a-z0-9]|[a-z])[.]?)$'
 
   validate_re( $country, '^[A-Z]{2}$' )
-  validate_re( $state, '^(?i)[A-Z]+$' )
-  validate_re( $city, '^(?i)[A-Z ]+$' )
+  validate_re( $state, '^(?i)[A-Z \-]*$' )
+  validate_re( $city, '^(?i)[A-Z \-]*$' )
   validate_string( $org )
   validate_string( $org_unit )
   validate_re( $cn, $hostname_regex,
           "ssl:cert resource '${cn}' does not appear to be a valid hostname." )
-  validate_array( $alt_names )
+  validate_array($alt_names)
 
   # Add our CN to the alt_names list
   $alt_names_real = flatten( unique( [ $cn, $alt_names ] ) )
