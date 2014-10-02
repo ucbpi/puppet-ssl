@@ -13,6 +13,8 @@ describe 'ssl', :type => :class do
       contain_class('ssl::package').
         with_package('openssl').
         that_comes_before('ssl::cert[certname]')
+
+    should contain_class('ssl::params')
   end
 
   let :file_meta_params do
