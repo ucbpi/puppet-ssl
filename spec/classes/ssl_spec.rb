@@ -1,25 +1,11 @@
 require 'spec_helper'
 
 describe 'ssl', :type => :class do
-  let :rhel_facts do
-    {
-      :osfamily => 'RedHat',
-    }
+  it do
+    should contain_class('ssl::package').with_package('openssl')
   end
 
-  let :debian_facts do
-    {
-      :osfamily => 'Debian',
-    }
-  end
-
-  let :arch_facts do
-    {
-      :osfamily => 'Archlinux',
-    }
-  end
-
-  let :meta_dir_params do
+  let :file_meta_params do
     {
       :ensure => 'directory',
       :owner => 'root',
@@ -27,53 +13,34 @@ describe 'ssl', :type => :class do
       :mode => '0444',
     }
   end
-  
-  #
-  # OS-Independant Tests
-  #
-  # We'll use the rhel_facts, otherwise without a support osfamily fact we'll
-  # get a puppet parse error.
-  #
-  context 'include our packages class' do
-    let(:facts) { rhel_facts }
+
+  context 'on RedHat-family based systems' do
+    let(:facts){{ :osfamily => 'RedHat' }}
+
     it do
-      should contain_ssl__package
+      should \
+        contain_file('/etc/pki/tls/certs/meta').
+        with(file_meta_params)
     end
   end
 
-  #
-  # RHEL Specific Tests
-  #
-  context 'RedHat Specific Tests' do
-    context 'create our meta directory' do
-      let(:facts) { rhel_facts }
-      it do
-        should contain_file('/etc/pki/tls/certs/meta').with(meta_dir_params)
-      end
+  context 'on Debian-family based systems' do
+    let(:facts) {{ :osfamily => 'Debian' }}
+
+    it do
+      should \
+        contain_file('/etc/ssl/certs/meta').
+        with(file_meta_params)
     end
   end
 
-  #
-  # Debian Specific Tests
-  #
-  context 'Debian Specific Tests' do
-    context 'create our meta directory' do
-      let(:facts) { debian_facts }
-      it do
-        should contain_file('/etc/ssl/certs/meta').with(meta_dir_params)
-      end
-    end
-  end
+  context 'on ArchLinux-family based systems' do
+    let(:facts) {{ :osfamily => 'ArchLinux' }}
 
-  #
-  # ArchLinux Specific Tests
-  #
-  context 'Arch Specific Tests' do
-    context 'create our meta directory' do
-      let(:facts) { arch_facts }
-      it do
-        should contain_file('/etc/ssl/certs/meta').with(meta_dir_params)
-      end
+    it do
+      should \
+        contain_file('/etc/ssl/certs/meta').
+        with(file_meta_params)
     end
   end
 end

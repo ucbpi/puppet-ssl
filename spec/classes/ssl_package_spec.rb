@@ -1,19 +1,18 @@
 require 'spec_helper'
 
 describe 'ssl::package', :type => :class do
-  # this will be evaluated prior to each it block within the following contexts
-  before(:each) do
-    'include ::ssl::params'
+  context 'with $package left unset' do
+    it do
+      should contain_package('openssl')
+    end
   end
 
-  # RedHat, ArchLinux and Debian all call the package openssl
-  [ "RedHat", "ArchLinux", "Debian" ].each do |fam|
-    context "on #{fam} based systems" do
-      let(:facts) { { :osfamily => fam } }
+  context 'with $package = [ "openssl", "libssl" ]' do
+    let(:params) {{ 'package' => [ 'openssl','libssl' ] }}
 
-      it do
-        should contain_package('openssl')
-      end
+    it do
+      should contain_package('openssl')
+      should contain_package('libssl')
     end
   end
 end
