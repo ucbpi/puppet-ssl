@@ -7,6 +7,7 @@ if ENV.key?('PUPPET_VERSION')
 end
 
 gem 'rake'
+gem 'rcov'
 gem 'puppet-lint'
 gem "rspec-puppet", :git => 'https://github.com/rodjek/rspec-puppet.git'
 gem 'puppet', puppetversion
