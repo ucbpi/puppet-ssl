@@ -15,6 +15,8 @@ describe 'ssl', :type => :class do
         that_comes_before('ssl::cert[certname]')
 
     should contain_class('ssl::params')
+
+    should contain_ssl__cert('certname')
   end
 
   let :file_meta_params do
