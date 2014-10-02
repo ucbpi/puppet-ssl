@@ -9,7 +9,7 @@ fact).  Pull requests for other platforms are welcomed.
 
 ## Dependencies ##
 
-* puppetlabs-stdlib >= 2.6.0 (may work with earlier versions)
+* puppetlabs-stdlib >= 2.7.0 (may work with earlier versions)
 
 # Usage #
 
@@ -28,8 +28,8 @@ but this can easily be expanded to others.
 ## Example ##
 
 <pre><code>
-  include ssl
-  
+  class { 'ssl': package => 'openssl98' }
+
   ssl::cert { 'www.example.com':
     alt_names => [ 'www2.example.com' ],
     country   => 'US',
@@ -51,7 +51,7 @@ See LICENSE file
 Copyright
 ---------
 
-Copyright &copy; 2013 The Regents of the University of California
+Copyright &copy; 2014 The Regents of the University of California
 
 Contributors:
 -------------
