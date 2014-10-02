@@ -1,54 +1,38 @@
 require 'spec_helper'
 
 describe 'ssl::cert', :type => :define do
-  let :rhel_facts do
-    {
-      :osfamily => 'RedHat',
-    }
-  end
+  let(:title) { 'www.example.com' }
 
-  let :title do
-    'www.example.com'
-  end
+  let(:cnf_file_params){{
+    :ensure => 'file',
+    :owner => 'root',
+    :group => 'root',
+    :mode => '0440',
+    :before => 'Exec[generate-key-www.example.com]',
+    :notify => 'Exec[generate-csr-www.example.com]',
+  }}
 
-  let :facts do
-    rhel_facts
-  end
+  let(:key_file_params) {{
+    :ensure => 'present',
+    :mode => '0600',
+    :owner => 'root',
+    :group => 'root',
+    :require => 'Exec[generate-key-www.example.com]',
+  }}
 
-  context 'check for resources' do
-    it do
-      should contain_exec("generate-key-#{title}")
-      #should contain_exec
-    end
-  end
-
-  context 'with passed parameters' do
-    let :facts do
-      rhel_facts
+  it do
+    [ 'csr','csrh','self','key'].each do |type|
+      should contain_exec("generate-#{type}-#{title}")
     end
 
-    let :params do
-      {
-        :state => 'New Jersey',
-        :city => 'New Brunswick',
-        :org => 'Example Org',
-        :org_unit => 'Example Org Unit',
-        :country => 'US',
-      }
-    end
+    should contain_ssl__cert('www.example.com')
 
-    it do
-      should contain_exec('generate-key-www.example.com')
-    end
-  end
+    should \
+      contain_file("/etc/pki/tls/certs/meta/www.example.com.cnf").
+      with(cnf_file_params)
 
-  context 'with default parameters' do
-    let :facts do
-      rhel_facts
-    end
-
-    it do
-      should contain_exec('generate-key-www.example.com')
-    end
+    should \
+      contain_file("/etc/pki/tls/private/www.example.com.key").
+      with(key_file_params)
   end
 end
