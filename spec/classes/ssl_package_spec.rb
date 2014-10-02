@@ -1,56 +1,18 @@
 require 'spec_helper'
 
 describe 'ssl::package', :type => :class do
-  let :rhel_facts do
-    {
-      :osfamily => 'RedHat',
-    }
+  # this will be evaluated prior to each it block within the following contexts
+  before(:each) do
+    'include ::ssl::params'
   end
 
-  let :debian_facts do
-    {
-      :osfamily => 'Debian',
-    }
-  end
+  # RedHat, ArchLinux and Debian all call the package openssl
+  [ "RedHat", "ArchLinux", "Debian" ].each do |fam|
+    context "on #{fam} based systems" do
+      let(:facts) { { :osfamily => fam } }
 
-  let :arch_facts do
-    {
-      :osfamily => 'Archlinux',
-    }
-  end
-
-  #
-  # RHEL Specific Tests
-  #
-  context 'RedHat Specific Tests' do
-    context 'openssl package installation' do
-      let(:facts) { rhel_facts }
       it do
-        should contain_package('openssl').with_ensure('present')
-      end
-    end
-  end
-
-  #
-  # Debian Specific Tests
-  #
-  context 'Debian Specific Tests' do
-    context 'openssl package installation' do
-      let(:facts) { debian_facts }
-      it do
-        should contain_package('openssl').with_ensure('present')
-      end
-    end
-  end
-
-  #
-  # ArchLinux Specific Tests
-  #
-  context 'Arch Specific Tests' do
-    context 'openssl package installation' do
-      let(:facts) { arch_facts }
-      it do
-        should contain_package('openssl').with_ensure('present')
+        should contain_package('openssl')
       end
     end
   end
